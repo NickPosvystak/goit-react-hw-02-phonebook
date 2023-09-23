@@ -12,14 +12,31 @@ export class ContactForm extends Component {
     name: '',
     number: '',
   };
+
   handleInputChange = event => {
     console.log(event.target.name);
-    this.setState({});
+    console.log(event.target.value);
+    this.setState({
+      [event.target.name]: event.target.value,
+    });
   };
+
+  handleSubmit = event => {
+    event.preventDefault();
+    const stateData = {
+      ...this.state,
+    };
+    this.props.handleAddContact(stateData);
+
+    this.setState({
+      name: '',
+      number: '',
+    });
+  };
+
   render() {
     return (
-      <form>
-        <h1>Phonebook</h1>
+      <form onSubmit={this.handleSubmit}>
         <label htmlFor="">
           <h3>Name</h3>
           <input

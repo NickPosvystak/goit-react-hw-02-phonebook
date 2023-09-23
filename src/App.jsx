@@ -1,8 +1,6 @@
-import { Component } from "react";
+import { Component } from 'react';
 import { ContactForm } from 'components/ContactForm/ContactForm ';
-import { Contacts } from "components/Contacts/Contacts";
-
-
+import { ContactList } from 'components/ContactList/ContactList';
 
 export class App extends Component {
   // state = {
@@ -23,6 +21,16 @@ export class App extends Component {
 
   //   })
   // }
+
+  handleAddContact = contactData => {
+    console.log(contactData);
+    this.setState(prevState => {
+      return {
+        
+      }
+    })
+  };
+
   render() {
     return (
       <div
@@ -35,9 +43,12 @@ export class App extends Component {
           color: '#010101',
         }}
       >
-        <ContactForm />
-        <Contacts />
+        <h1>Phonebook</h1>
+        <ContactForm handleAddContact={this.handleAddContact} />
+
+        <h2>Contacts</h2>
+        <ContactList />
       </div>
     );
   }
-};
+}
