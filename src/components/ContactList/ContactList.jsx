@@ -1,4 +1,6 @@
-export const ContactList = ({ contacts, onDelete }) => {
+
+ const ContactList = ({ contacts, onDelete }) => {
+  
   return (
     <ul>
       {contacts.map(({ name, number, id }) => {
@@ -6,7 +8,7 @@ export const ContactList = ({ contacts, onDelete }) => {
           <li key={id}>
             <span>{name}:</span>
             <span>{number}:</span>
-            <button type="button" onClick={() => onDelete(id)}>
+            <button type="button">
               X
             </button>
           </li>
@@ -15,3 +17,5 @@ export const ContactList = ({ contacts, onDelete }) => {
     </ul>
   );
 };
+
+export default ContactList;

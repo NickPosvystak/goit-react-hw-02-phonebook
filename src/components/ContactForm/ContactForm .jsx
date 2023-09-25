@@ -13,6 +13,8 @@ export class ContactForm extends Component {
     number: '',
   };
 
+  
+
   handleInputChange = event => {
     console.log(event.target.name);
     console.log(event.target.value);
@@ -23,15 +25,16 @@ export class ContactForm extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    const stateData = {
-      ...this.state,
-    };
-    this.props.handleAddContact(stateData);
+    // const stateData = {
+    //   ...this.state,
+    // };
+    // this.props.handleAddContact(stateData);
 
     this.setState({
       name: '',
       number: '',
     });
+    
   };
 
   render() {

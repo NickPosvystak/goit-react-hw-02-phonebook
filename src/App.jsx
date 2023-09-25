@@ -1,53 +1,59 @@
 import { Component } from 'react';
 import { ContactForm } from 'components/ContactForm/ContactForm ';
-import { ContactList } from 'components/ContactList/ContactList';
+import ContactList from 'components/ContactList/ContactList';
+import defaultContacts from './defaultContacts.json';
+import { nanoid } from 'nanoid';  
 
 export class App extends Component {
-  // state = {
-  //   contacts: [
-  //     { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-  //     { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-  //     { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-  //     { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-  //   ],
-  //   filter: '',
-  //   name: '',
-  //   number: '',
-  // };
+  state = {
+    contacts: defaultContacts,
+    filter: '',
+    name: '',
+    number: '',
+  };
 
-  // handleInputChange = (event) => {
-  //   console.log(event);
-  //   this.setState({
 
-  //   })
-  // }
+  handleNameChange = e => {
+    this.setState({ name: e.target.value });
+  };
 
-  handleAddContact = contactData => {
-    console.log(contactData);
-    this.setState(prevState => {
-      return {
-        
-      }
-    })
+  handleSubmit = e => {
+    e.preventDefault();
+    const { name } = this.state;
+    if (name.trim() === '') return;
+
+    const newContact = {
+      id: nanoid(),
+      name,
+    };
+
+    this.setState(prevState => ({
+      contacts: [...prevState.contacts, newContact],
+      name: '',
+    }));
   };
 
   render() {
+    const { name, contacts } = this.state;
     return (
-      <div
-        style={{
-          height: '70vh',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          fontSize: 20,
-          color: '#010101',
-        }}
-      >
+      <div>
         <h1>Phonebook</h1>
-        <ContactForm handleAddContact={this.handleAddContact} />
-
+        <form onSubmit={this.handleSubmit}>
+          <input
+            type="text"
+            name="name"
+            value={name}
+            onChange={this.handleNameChange}
+            required
+          />
+          <button type="submit">Add Contact</button>
+        </form>
         <h2>Contacts</h2>
-        <ContactList />
+        <ul>
+          {contacts.map(contact => (
+            <li key={contact.id}>{contact.name}</li>
+          ))}
+        </ul>
       </div>
     );
   }
