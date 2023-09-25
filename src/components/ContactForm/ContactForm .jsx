@@ -1,69 +1,70 @@
 import { Component } from 'react';
+import css from './ContactForm.module.css';
 
 export class ContactForm extends Component {
   state = {
-    contacts: [
-      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-    ],
-    filter: '',
     name: '',
     number: '',
+    filter: '',
   };
 
-  
-
-  handleInputChange = event => {
-    console.log(event.target.name);
-    console.log(event.target.value);
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
+  handleNameChange = e => {
+    this.setState({ name: e.target.value });
+  };
+  handleNumberChange = e => {
+    this.setState({ number: e.target.value });
+  };
+  handleFilterChange = e => {
+    this.setState({ filter: e.target.value });
   };
 
-  handleSubmit = event => {
-    event.preventDefault();
-    // const stateData = {
-    //   ...this.state,
-    // };
-    // this.props.handleAddContact(stateData);
+  handleSubmit = e => {
+    e.preventDefault();
+    console.log(e.target.name.value);
+    console.log(e.target.number.value);
+    const { name, number } = this.state;
+    if (name.trim() === '' || number.trim() === '') return;
 
+    this.props.onAddContact({ name, number });
+
+    // Clear the form inputs
     this.setState({
       name: '',
       number: '',
     });
-    
   };
 
+
   render() {
+    const { name, number } = this.state;
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label htmlFor="">
-          <h3>Name</h3>
+      <div className={css.box}>
+        <form onSubmit={this.handleSubmit} className={css.form}>
           <input
+            className={css.input}
             type="text"
-            onChange={this.handleInputChange}
-            value={this.name}
             name="name"
+            value={name}
+            onChange={this.handleNameChange}
+            placeholder="Name"
             pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
             title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
             required
           />
-          <h3>Number</h3>
           <input
+            className={css.input}
             type="tel"
-            onChange={this.handleInputChange}
-            value={this.number}
             name="number"
+            value={number}
+            onChange={this.handleNumberChange}
+            placeholder="Phone Number"
             pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
             required
           />
-        </label>
-        <button type="submit">Add contact</button>
-      </form>
+          <button type="submit" className={css.btnAdd}>Add Contact</button>
+        </form>
+      </div>
     );
   }
 }
